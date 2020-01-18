@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanyixin.senior1.homework.dao.PlanMapper">
+	<insert id="insert">
+		INSERT INTO zhunneng_2019plan(name,amount,manager,content,dept_id)VALUES 
+		(#{name},#{amount},#{manager},#{content},#{dept_id})
+	</insert>
+	<select id="select" resultType="plan">
+		select p.*,d.`name` as cname from zhunneng_2019plan p LEFT JOIN zhunneng_department d on p.dept_id=d.id
+		<where>
+			<if test="name!=null and name!=''">
+				p.name like "%"#{name}"%"
+			</if>
+		</where>
+	</select>
+	<select id="selectById" resultType="plan">
+		select p.*,d.`name` as cname from zhunneng_2019plan p LEFT JOIN zhunneng_department d on p.dept_id=d.id 
+		where p.id=#{id}
+	</select>
+	
+	<select id="selectDept" resultType="plan">
+		select id as dept_id,name as cname from zhunneng_department
+	</select>
+	
+	<update id="update">
+		UPDATE zhunneng_2019plan
+		 SET name=#{name},amount=#{amount},manager=#{manager},content=#{content},dept_id=#{dept_id} 
+		WHERE id=#{id}
+	</update>
+	
+	<delete id="del">
+		DELETE FROM zhunneng_2019plan WHERE id in(#{ids})
+	</delete>
+</mapper>
